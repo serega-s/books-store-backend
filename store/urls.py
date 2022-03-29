@@ -6,6 +6,8 @@ from store import views
 router = SimpleRouter()
 router.register(r'book', views.BooksViewSet)
 
-urlpatterns = []
+urlpatterns = [
+    path('auth/', views.auth)
+]
 
 urlpatterns += router.urls
