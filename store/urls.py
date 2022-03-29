@@ -4,7 +4,7 @@ from rest_framework.routers import SimpleRouter
 from store import views
 
 router = SimpleRouter()
-router.register(r'book', views.BookViewSet)
+router.register(r'book', views.BooksViewSet)
 
 urlpatterns = []
 
