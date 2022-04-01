@@ -7,7 +7,7 @@ router = SimpleRouter()
 router.register(r'book', views.BooksViewSet)
 
 urlpatterns = [
-    path('auth/', views.auth)
+    path('auth/', views.AuthView.as_view())
 ]
 
 urlpatterns += router.urls
