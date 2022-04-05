@@ -5,6 +5,7 @@ from store import views
 
 router = SimpleRouter()
 router.register(r'book', views.BooksViewSet)
+router.register(r'book_relation', views.UserBookRelationView)
 
 urlpatterns = [
     path('auth/', views.AuthView.as_view())
