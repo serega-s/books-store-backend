@@ -7,6 +7,7 @@ class Book(models.Model):
     price = models.DecimalField(max_digits=7, decimal_places=2)
     author_name = models.CharField(max_length=255)
     owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='my_books')
+    rating = models.DecimalField(max_digits=3, decimal_places=2, default=None, null=True)
     readers = models.ManyToManyField(User, through='UserBookRelation', related_name='books')
 
     def __str__(self):
@@ -29,3 +30,15 @@ class UserBookRelation(models.Model):
 
     def __str__(self):
         return f'{self.user.username}: {self.book.name}, {self.rate}'
+
+    def save(self, *args, **kwargs):
+        from store.logic import set_rating
+
+        creating = not self.pk
+
+        old_rating = self.rate
+        super().save(*args, **kwargs)
+        new_rating = self.rate
+
+        if old_rating != new_rating or creating:
+            set_rating(self.book)
