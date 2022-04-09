@@ -45,14 +45,18 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    # 'oauth2_provider',
     'social_django',
+    # 'drf_social_oauth2',
     'debug_toolbar',
 
-    'store'
+    'store',
+
 ]
 
 AUTHENTICATION_BACKENDS = [
     'social_core.backends.github.GithubOAuth2',
+    # 'drf_social_oauth2.backends.DjangoOAuth2',
     'django.contrib.auth.backends.ModelBackend'
 ]
 
@@ -152,7 +156,11 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PARSER_CLASSES': [
         'rest_framework.parsers.JSONParser',
-    ]
+    ],
+    # 'DEFAULT_AUTHENTICATION_CLASSES': [
+    #     'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+    #     'drf_social_oauth2.authentication.SocialAuthentication',
+    # ]
 }
 
 SOCIAL_AUTH_JSONFIELD_ENABLED = True
