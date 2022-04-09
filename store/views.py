@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.db.models import Count, Case, When, Avg, F
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
 from django.views.generic import TemplateView
@@ -14,7 +14,13 @@ from store.serializers import BooksSerializer, UserBookRelationSerializer
 
 class BooksViewSet(ModelViewSet):
     serializer_class = BooksSerializer
-    queryset = Book.objects.all()
+    queryset = Book.objects \
+        .all() \
+        .annotate(annotated_likes=Count(Case(When(userbookrelation__like=True, then=1))),
+                  # rating=Avg('userbookrelation__rate'),
+                  owner_name=F('owner__username')) \
+        .prefetch_related('readers') \
+        .order_by('id')
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     permission_classes = [IsOwnerOrStaffOrReadOnly]
     filter_fields = ['price']
@@ -40,3 +46,6 @@ class UserBookRelationView(UpdateModelMixin, GenericViewSet):
 
 class AuthView(TemplateView):
     template_name = 'oauth.html'
+
+# Annotate does an aggregation and returns a model with a additional given field
+# Aggregate does an aggregation and returns a object only with a given field

@@ -5,6 +5,7 @@
   <title>Title</title>
 </head>
 <body>
-  <a href="{% url "social:begin" "github" %}">GitHub</a>
+  {{ request.user.username }}
+  <a href="{% url 'social:begin' 'github' %}">GitHub</a>
 </body>
 </html>
